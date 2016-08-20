@@ -9,21 +9,28 @@
 
 source ./options.sh
 
+if [ "${ENPASS}" == true ]; then
+	if [ ! -f "${PUBLICKEY}" ]; then
+		echo "PUBLICKEY IS REQUIRED IF ENPASS IS ENABLED!"
+		exit 1
+	fi
+fi
+
 deleteoldbackups() {
-  true;
+	true;
 }
 
 mysqlbackup() {
-  mysqldump -uroot -p${MYSQLPASS} --alldatabases > ${TMPDIR}my.sql
-  tar -cvf ${TMPDIR}mysql.tar ${TMPDIR}my.sql
+	mysqldump -uroot -p${MYSQLPASS} --alldatabases > ${TMPDIR}my.sql
+	tar -cvf ${TMPDIR}mysql.tar ${TMPDIR}my.sql
   
-  if [ "$ENPASS" = false ]; then
-	7z a -y -sdel -mk=7 ${TMPDIR}mysql.tar.7z ${TMPDIR}mysql.tar
-  elif [ "$ENPASS" = true ]; then
-	7z 7z a -y -sdel -p"${PASS}" -mk=7 ${TMPDIR}mysql.tar.7z ${TMPDIR}mysql.tar
-  fi
+	if [ "$ENPASS" = false ]; then
+		7z a -y -sdel -mk=7 ${TMPDIR}mysql.tar.7z ${TMPDIR}mysql.tar
+	elif [ "$ENPASS" = true ]; then
+		7z 7z a -y -sdel -p"${PASS}" -mk=7 ${TMPDIR}mysql.tar.7z ${TMPDIR}mysql.tar
+	fi
   
-  mv ${TMPDIR}mysql.tar.7z ${TMPDIR}backup
+	mv ${TMPDIR}mysql.tar.7z ${TMPDIR}backup
 }
 
 if [ "$ENPASS" = true ]; then
@@ -33,14 +40,14 @@ fi
 mkdir "${TMPDIR}backup"
 
 for i in "${DIR[@]}"; do
-  FILENAME=$(echo ${i} | sed 's/^.//' | sed 's/\//./g')
-  tar -cvf "${TMPDIR}${FILENAME}.tar" $i
-  if [ "$ENPASS" = false ]; then
-	7z a -y -sdel -mx=7 "${TMPDIR}${FILENAME}.tar.7z" "${TMPDIR}${FILENAME}.tar"
-  elif [ "$ENPASS" = true ]; then
-	7z a -y -sdel -p"${PASS}" -mx=7 "${TMPDIR}${FILENAME}.tar.7z" "${TMPDIR}${FILENAME}.tar"
-  fi
-  mv "${TMPDIR}${FILENAME}.tar.7z" ${TMPDIR}backup
+	FILENAME=$(echo ${i} | sed 's/^.//' | sed 's/\//./g')
+	tar -cvf "${TMPDIR}${FILENAME}.tar" $i
+	if [ "$ENPASS" = false ]; then
+		7z a -y -sdel -mx=7 "${TMPDIR}${FILENAME}.tar.7z" "${TMPDIR}${FILENAME}.tar"
+	elif [ "$ENPASS" = true ]; then
+		7z a -y -sdel -p"${PASS}" -mx=7 "${TMPDIR}${FILENAME}.tar.7z" "${TMPDIR}${FILENAME}.tar"
+	fi
+	mv "${TMPDIR}${FILENAME}.tar.7z" ${TMPDIR}backup
 done
 
 mysqlbackup
