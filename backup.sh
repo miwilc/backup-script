@@ -5,7 +5,6 @@
 #   Copyright (c) 2016 Andre Bongon
 #   Licensed under MIT License
 #
-#
 
 source ~/backup-settings/options.sh
 
@@ -49,8 +48,9 @@ for i in "${DIR[@]}"; do
 	fi
 	mv "${TMPDIR}${FILENAME}.tar.7z" "${TMPDIR}backup"
 done
-
-mysqlbackup
+if [ "$MYSQLPASS" != "" ]; then
+	mysqlbackup
+fi
 
 FILENAME=$(date + "%m-%d-%y")
 
