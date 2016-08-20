@@ -7,7 +7,7 @@
 #
 #
 
-source ./options.sh
+source ~/backup-settings/options.sh
 
 if [ "${ENPASS}" == true ]; then
 	if [ ! -f "${PUBLICKEY}" ]; then
