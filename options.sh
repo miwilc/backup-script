@@ -8,6 +8,10 @@ MYSQLPASS=""
 #You can enable or disable it.
 ENPASS=false
 
+#Path to public key. 
+#Required if ENPASS is enabled
+PUBLICKEY=""
+
 #Temporary directory. Change if you want. INCLUDE TRAILING SLASH
 TMPDIR="/tmp/"
 
