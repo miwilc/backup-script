@@ -20,7 +20,7 @@ deleteoldbackups() {
 }
 
 mysqlbackup() {
-	mysqldump -uroot -p"${MYSQLPASS}" --alldatabases > "${TMPDIR}my.sql"
+	mysqldump -uroot -p"${MYSQLPASS}" --all-databases > "${TMPDIR}my.sql"
 	tar -cvf "${TMPDIR}mysql.tar" "${TMPDIR}my.sql"
   
 	if [ "$ENPASS" = false ]; then
