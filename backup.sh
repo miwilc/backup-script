@@ -24,9 +24,9 @@ mysqlbackup() {
 	tar -cvf "${TMPDIR}mysql.tar" "${TMPDIR}my.sql"
   
 	if [ "$ENPASS" == false ]; then
-		7z a -y -sdel "${TMPDIR}mysql.tar.7z" "${TMPDIR}mysql.tar"
+		7z a -y -sdel -mm=BZip2 "${TMPDIR}mysql.tar.7z" "${TMPDIR}mysql.tar"
 	elif [ "$ENPASS" == true ]; then
-		7z 7z a -y -sdel -p"${PASS}" "${TMPDIR}mysql.tar.7z" "${TMPDIR}mysql.tar"
+		7z 7z a -y -sdel -mm=BZip2 -p"${PASS}" "${TMPDIR}mysql.tar.7z" "${TMPDIR}mysql.tar"
 	fi
   
 	mv "${TMPDIR}mysql.tar.7z" "${TMPDIR}backup"
@@ -42,9 +42,9 @@ for i in "${DIR[@]}"; do
 	FILENAME=$(echo "${i}" | sed 's/^.//' | sed 's/\//./g')
 	tar -cvf "${TMPDIR}${FILENAME}.tar" "$i"
 	if [ "$ENPASS" == false ]; then
-		7z a -y -sdel "${TMPDIR}${FILENAME}.tar.7z" "${TMPDIR}${FILENAME}.tar"
+		7z a -y -sdel -mm=BZip2 "${TMPDIR}${FILENAME}.tar.7z" "${TMPDIR}${FILENAME}.tar"
 	elif [ "$ENPASS" == true ]; then
-		7z a -y -sdel -p"${PASS}" "${TMPDIR}${FILENAME}.tar.7z" "${TMPDIR}${FILENAME}.tar"
+		7z a -y -sdel -mm=BZip2 -p"${PASS}" "${TMPDIR}${FILENAME}.tar.7z" "${TMPDIR}${FILENAME}.tar"
 	fi
 	mv "${TMPDIR}${FILENAME}.tar.7z" "${TMPDIR}backup"
 done
@@ -59,7 +59,7 @@ if [ "$ENPASS" == true ]; then
 	openssl rsautl -encrypt -inkey "${PUBLICKEY}" -pubin -in "${TMPDIR}backup/key.bin" -out "${TMPDIR}backup/key.bin.enc"
 fi
 
-7z a -y -sdel "${TMPDIR}${ID}-${FILENAME}.tar.7z" "${TMPDIR}backup/"
+7z a -y -sdel -mm=BZip2 "${TMPDIR}${ID}-${FILENAME}.tar.7z" "${TMPDIR}backup/"
 
 mv "${TMPDIR}${ID}-${FILENAME}.tar.7z" "${CLOUDDIR}"
 
