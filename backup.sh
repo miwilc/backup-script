@@ -52,7 +52,7 @@ if [ "$MYSQLPASS" != "" ]; then
 	mysqlbackup
 fi
 
-FILENAME=$(date +"%m-%d-%y")
+FILENAME=$(date +"%Y_%m_%d-%H_%M")
 
 if [ "$ENPASS" == true ]; then
 	echo "${PASS}" > "${TMPDIR}backup/key.bin"
