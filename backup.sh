@@ -6,7 +6,7 @@
 #   Licensed under MIT License
 #
 
-source ~/backup-settings/options.sh
+source /usr/local/backup-settings/options.sh
 
 if [ "${ENPASS}" == true ]; then
 	if [ ! -f "${PUBLICKEY}" ]; then
@@ -51,4 +51,4 @@ fi
 tar -cvf "${TMPDIR}${ID}-${FILENAME}.tar" "${TMPDIR}backup/"
 rm -rf "${TMPDIR}backup"
 mv "${TMPDIR}${ID}-${FILENAME}.tar" "${CLOUDDIR}"
-find "${CLOUDDIR}" -name "*.tar" -type f -mtime +30 -print -delete >> ~/backup-settings/log-${FILENAME}.log
+find "${CLOUDDIR}" -name "*.tar" -type f -mtime +30 -print -delete >> /usr/local/backup-settings/log-${FILENAME}.log
