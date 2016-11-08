@@ -7,7 +7,7 @@ if [ "$(whoami)" != "root" ]; then
 fi
 read -r -p "Enter a unique server ID name: " id_name
 
-read -r -p "Do you want to include MySQL/MariaDB bacups? (Y/N) [N]: " resp
+read -r -p "Do you want to include MySQL/MariaDB backups? (Y/N) [N]: " resp
 
 if [[ "$resp" == "y" || "$resp" == "Y" ]]; then
 	ENABLE_MYSQL=true
